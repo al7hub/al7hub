@@ -1,0 +1,32 @@
+ansible-playbook playbook.yml -i host_inv.inv -k (команда для копирования файла, путь в плейбуке, хосты в inventory файле)
+
+playbook.yml
+- hosts: all
+  become: false
+  tasks:
+	- name: Copy ssl jks to hosts
+	  copy:
+		src: "{{ item }}"
+		dest: "/путь куда положим серт/ssl"
+	  with_items:
+		- "/home/user/файл который копируем"
+	  tags:
+		- ssl
+		- jks
+		
+		
+host_inv.inv
+#список hosts
+
+[all:children]
+
+kafka
+[kafka]
+
+192.168.1.5
+192.168.1.6
+192.168.1.7
+
+[all:vars]
+newpassword=newpassword=#pass
+ansible_user=#user
